@@ -9,8 +9,8 @@ Inside this folder is how I handle gui in most games. Any other folder can be fo
 Before I show how to handle the gui, I want to show you whats in the client script.
 
 below is a some code that runs in the client script. This script loads modules using the Loader Module
-I use the loader to load some folders in ReplicaatedFirst, ReplicatedStorage and StarterPlayerScrripts (even though I havent really used controllers in StarterPlayerScrripts).
-The shared client folder at ReplicatedStorage.shared.Modules.SharedClient is where i store all my client side scripts. I initialize all the modules in here on the client so that they aare client only and the server cant requrie them.
+I use the loader to load some folders in ReplicatedFirst, ReplicatedStorage and StarterPlayerScrripts (even though I havent really used controllers in StarterPlayerScripts).
+The shared client folder at ReplicatedStorage.shared.Modules.SharedClient is where i store all my client side scripts. I initialize all the modules in here on the client so that they are client only and the server cant requrie them.
 
 ```
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
