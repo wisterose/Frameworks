@@ -1,5 +1,5 @@
 # Below is how i framework gui handling in most of my roblox games.
-## All snippets below arer from my co-owned game Salient Winds.
+## All snippets below are from my co-owned game Salient Winds.
 
 ![image](https://github.com/user-attachments/assets/ec52d824-1ff3-4a0b-a184-074668c2d5e1)
 
