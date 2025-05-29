@@ -17,7 +17,7 @@ Plus it’s kinda fun to look back at how I build things.
 
 ## | License
 
-MIT — use it however you want. Just give credit if you use a lot of it or share it around.
+This project is licensed under the GNU General Public License v3.0. See LICENSE for details.
 
 ---
 
