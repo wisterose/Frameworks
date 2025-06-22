@@ -107,4 +107,129 @@ return ComponentService
 At the top, we are using [pcall](https://create.roblox.com/docs/reference/engine/globals/LuaGlobals#pcall) to require all the component modules in the folder on the SERVER.
 ![image](https://github.com/user-attachments/assets/208dfb99-bcae-4eb6-8ac4-456965185889)
 
+We then fire our components loaded event to any other server side script that is willing to catch it using [LemonSignal](https://github.com/Data-Oriented-House/LemonSignal)
+![image](https://github.com/user-attachments/assets/3106f95b-8375-4820-88a4-68c79cceae11)
+![image](https://github.com/user-attachments/assets/0b881766-51b1-4312-a3ba-40a905cd0941)
+
+You can get the sleitnick component module from the dependencies listed at the top.
+Next I will show you how to setup the component modules themselves using the module from sleitnick.
+
+```
+--@author: wisterose
+--@date: 5/8/25
+
+local RunService = game:GetService("RunService")
+if not RunService:IsServer() then
+	return warn("Cannot require a component on the client.")
+end
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+
+-- Util
+local LemonSignal = require(ReplicatedStorage.shared.Modules.LemonSignal)
+local Trove = require(ReplicatedStorage.shared.Packages.Trove)
+local Component = require(ReplicatedStorage.shared.Packages.Component)
+local TableUtil = require(ReplicatedStorage.shared.Packages.TableUtil)
+local CharacterVerification = require(ServerStorage.ServerChecks.CharacterVerification)
+local PlayerVerification = require(ServerStorage.ServerChecks.PlayerVerification)
+
+local function verifyPlayer(player: Player): boolean
+	local success, result = pcall(PlayerVerification, player)
+	return success and result
+end
+
+local function verifyCharacter(character: Model): boolean
+	local success, result = pcall(CharacterVerification, character)
+	return success and result
+end
+
+-- Optional: Replace with your own folders or services
+local KillPartFolder = Workspace:FindFirstChild("KillParts")
+
+for _, killPart in pairs(KillPartFolder:GetDescendants()) do
+	if killPart:IsA("Instance") then
+		killPart:SetAttribute("Valid_KillPart", true)
+		killPart:AddTag("Valid_KillPart")
+	end
+end
+
+-- Logger Extension
+local Logger = {}
+function Logger.ShouldConstruct(component)
+	if component.Instance:IsA("Instance") and component.Instance:IsA("Part") then
+		return component.Instance:GetAttribute("Valid_KillPart") == true -- Replace if needed
+	end
+end
+
+local KillpartComponent = Component.new({
+	Tag = "Valid_KillPart",
+	Ancestors = {KillPartFolder},
+	Extensions = {Logger},
+})
+
+local constructedComponents = {}
+
+function KillpartComponent:Construct()
+	self.Trove = Trove.new()
+	print("KillpartComponent Constructed:", self.Instance)
+	table.insert(constructedComponents, self)
+end
+
+function KillpartComponent:GetFromInstance(instance: Instance)
+	for _, component in pairs(constructedComponents) do
+		if component.Instance == instance then
+			return component
+		end
+	end
+	print("Instance not found")
+	return nil
+end
+
+function KillpartComponent:Start()
+	for _, component in pairs(constructedComponents) do
+		if component and component.Instance :: Part | Instance then
+			self.Trove:Connect(component.Instance.Touched, function(touchPart)
+				if touchPart then
+					for _, charmodel in pairs(workspace.Humanoids:GetChildren()) do
+						if charmodel:IsA("Model") then
+							if touchPart:IsDescendantOf(charmodel) then
+								local Player = Players:GetPlayerFromCharacter(charmodel)
+								if verifyPlayer(Player) and verifyCharacter(charmodel) then
+									local Humanoid = charmodel:FindFirstChildOfClass("Humanoid")
+									if Humanoid then
+										Humanoid:TakeDamage(Humanoid.MaxHealth or 9e9)
+									end
+								end
+							end
+						end
+					end
+				end
+			end)
+		end
+	end
+end
+
+function KillpartComponent:Stop()
+	self.Trove:Destroy()
+	print("KillpartComponent Stopped:", self.Instance)
+end
+
+return KillpartComponent
+```
+
+At the top, we are requiring our component module form sleitnick.
+![image](https://github.com/user-attachments/assets/4b58ad56-e46e-471e-9fe5-8e5364668a9d)
+
+Next, We have our logger and the component creation
+![image](https://github.com/user-attachments/assets/984a5f32-abae-445c-922d-af0d546b8190)
+
+our logger is basically its own table with a function attached to it, the method used is specifically named from the options listed in the documentation of the sleitnick component module.
+For now we will use "ShouldConstruct", In which will return a boolean telling the constructor whether to make a new component for this obect or not.
+
+
+
+
 
