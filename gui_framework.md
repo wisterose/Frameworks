@@ -1,6 +1,9 @@
 # Below is how i framework gui handling in most of my roblox games.
 ## All snippets below are from my co-owned game Salient Winds.
 
+credits to SleitNick for the dependencies !!!
+[Get roblox util dependencies here](https://sleitnick.github.io/RbxUtil/)
+
 ![image](https://github.com/user-attachments/assets/ec52d824-1ff3-4a0b-a184-074668c2d5e1)
 
 First, I start with the good ol' client script in StarterPlayerScripts, and put a folder in it called "React"
@@ -388,17 +391,12 @@ As you can see below, we are creating ONE main screen gui, and adding all of our
 ![image](https://github.com/user-attachments/assets/836ffbe8-cd2f-4881-80c4-04b44325292f)
 
 
-We can pass in variables hich wll be caught in the return function of each component.
+We can pass in variables which will be caught in the return function of each component.
 
 below is an example of one of my components. it returrns a functon with props as the firrst argument, whiich we are passing in from the ReactTree module.
 
 ![image](https://github.com/user-attachments/assets/2f2160f0-c495-4349-ab9a-f2a848a57c4d)
 
-you can do whatever u want with theses prop variables, and it is very optimal to use eract like this.
+you can do whatever you want with theses prop variables, and it is very optimal to use react like this.
 
-That will be all for handling guis, if you have any questions please leave a comment. I will be postinig new files of NEW frameworks / Plugins i create for games.
-
-[Get roblox util dependencies here](https://sleitnick.github.io/RbxUtil/)
-
-
-credits to SleitNick for the dependencies !!!
+That will be all for handling guis, if you have any questions please leave a comment. I will be posting new files of NEW frameworks / Plugins i create for games.
