@@ -1,13 +1,13 @@
 # Component Management in Salient Winds
 
-Below is how I handle a LOT of smaller things in my game including characters, trinket spawns, killparts, spawn locations, NPCs, areas, etc.  
+Below is how I handle a LOT of smaller things in my game including characters, trinket spawns, kill parts, spawn locations, NPCs, areas, etc.  
 It doesn't have to be small things — it can also be used to manage bigger systems too.
 
 ## Overview
 
 All snippets below are from my co-owned game **Salient Winds**.
 
-Credits to [**SleitNick**](https://sleitnick.github.io/RbxUtil/) for the utility dependencies.
+Credits to [**Sleitnick**](https://sleitnick.github.io/RbxUtil/) for the utility dependencies.
 
 ## Dependencies
 
@@ -31,11 +31,11 @@ Replace the above image with a screenshot of your actual folder structure by upl
 
 ## What This System Manages
 
-Here’s a non-exhaustive list of what I manage using this setup:
+Here's a non-exhaustive list of what I manage using this setup:
 
 - Characters
 - Trinket spawns
-- Killparts
+- Kill parts
 - Spawn locations
 - NPCs
 - Area triggers
@@ -52,7 +52,7 @@ Each of these is a **component** that can be initialized, started, stopped, or m
 ---
 
 Now that we have the folder setup, we can look into how the handler for it works.
-Note that all components should be ran on the SERVER to prevent exploitation.
+Note that all components should be run on the SERVER to prevent exploitation.
 
 Here is our services folder
 ![image](https://github.com/user-attachments/assets/7d68a0d7-17ed-4b50-ad9c-c113e76696d6)
@@ -107,12 +107,13 @@ return ComponentService
 At the top, we are using [pcall](https://create.roblox.com/docs/reference/engine/globals/LuaGlobals#pcall) to require all the component modules in the folder on the SERVER.
 ![image](https://github.com/user-attachments/assets/208dfb99-bcae-4eb6-8ac4-456965185889)
 
-We then fire our components loaded event to any other server side script that is willing to catch it using [LemonSignal](https://github.com/Data-Oriented-House/LemonSignal)
+We then fire our components loaded event to any other server-side script that is willing to catch it using [LemonSignal](https://github.com/Data-Oriented-House/LemonSignal)
 ![image](https://github.com/user-attachments/assets/3106f95b-8375-4820-88a4-68c79cceae11)
 ![image](https://github.com/user-attachments/assets/0b881766-51b1-4312-a3ba-40a905cd0941)
 
-You can get the sleitnick component module from the dependencies listed at the top.
-Next I will show you how to setup the component modules themselves using the module from sleitnick.
+You can get the Sleitnick component module from the dependencies listed at the top.
+Next I will show you how to set up the component modules themselves using the module from Sleitnick.
+
 
 ```
 --@author: wisterose
@@ -220,16 +221,49 @@ end
 return KillpartComponent
 ```
 
-At the top, we are requiring our component module form sleitnick.
+At the top, we are requiring our component module from Sleitnick.
 ![image](https://github.com/user-attachments/assets/4b58ad56-e46e-471e-9fe5-8e5364668a9d)
 
-Next, We have our logger and the component creation
+Next, we have our logger and the component creation
 ![image](https://github.com/user-attachments/assets/1996770c-fbf9-43a2-9fb1-c9ca245fb99c)
 
-our logger is basically its own table with a function attached to it, the method used is specifically named from the options listed in the documentation of the sleitnick component module.
-For now we will use "ShouldConstruct", In which will return a boolean telling the constructor whether to make a new component for this obect or not.
+Our logger is basically its own table with a function attached to it, the method used is specifically named from the options listed in the documentation of the Sleitnick component module.
+For now we will use "ShouldConstruct", which will return a boolean telling the constructor whether to make a new component for this object or not.
+
+In the ShouldConstruct check for instance, since it's a kill part component, we will check if the part(component.Instance) has the attribute "Valid_KillPart", to make sure it's valid.
+You can really add anything you want to this function as long as it returns a boolean.
+
+Next, we create our component using ```local KillPartComponent = Component.new({})```
+
+We will pass in 3 Arguments, "Tag", "Ancestors" and "Extensions".
+For our tag, it will tag the instance with whatever we give it.
+For our ancestors we pass in the folder, model, instance, part or whatever the components' instance is a descendant of.
+For our extensions we pass in the logger.
+
+Next, we create a table that will hold our currently constructed components, you do not have to do this but this is how I set it up
+![image](https://github.com/user-attachments/assets/c10ad381-fbd3-46c1-82d7-5b7dcadbf380)
+
+As you see, it's nothing much, I just create a new trove using the trove module.
+I then insert the newly constructed component into the constructedComponents table.
+
+From there you can have pretty much any function you want, if you want to add checks, getting an instance from components, etc.
+Just make sure you have a :Start function and a :Stop function, in the start function you pretty much initialize whatever it is for your component, and the stop function, you cleanup any connections, etc.
+
+Here I am Initializing the kill part, and connecting the touch events, I then destroy the trove in the :Stop function.
+
+![image](https://github.com/user-attachments/assets/f39873d4-cfb1-4c4b-8049-62f78f49eca8)
 
 
+# Why This Approach Matters
 
+- Server authority — logic executes only on the server, shielding it from exploiters.
 
+- Single responsibility — each object type (trinket, NPC, kill part) lives in its own module, reducing cross‑system bugs.
 
+- Hot‑swapping — adding a new feature is as simple as tagging an instance and writing one module; no master script edits are required.
+
+- Maintainability — the Components folder is versioned through a PackageLink, so updates stay in sync and rollbacks are easy.
+
+- Performance — components construct only when a tagged instance exists, avoiding unnecessary polling or heartbeat loops.
+
+## This structure keeps the codebase organised, secure, and modular while scaling smoothly as the game grows.
