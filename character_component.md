@@ -4,6 +4,16 @@ This document explains how the character component system manages status effects
 
 ## Overview
 
+All snippets below are from my co-owned game **Salient Winds**.
+
+Credits to [**Sleitnick**](https://sleitnick.github.io/RbxUtil/) for the utility dependencies.
+
+## Dependencies
+
+Make sure you have [RbxUtil](https://sleitnick.github.io/RbxUtil/) installed.  
+I rely on some utility modules from there for shared logic and component structure.
+
+
 The character component system consists of two main parts:
 1. The character component handler
 2. Individual status effect modules
