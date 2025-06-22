@@ -224,7 +224,7 @@ At the top, we are requiring our component module form sleitnick.
 ![image](https://github.com/user-attachments/assets/4b58ad56-e46e-471e-9fe5-8e5364668a9d)
 
 Next, We have our logger and the component creation
-![image](https://github.com/user-attachments/assets/984a5f32-abae-445c-922d-af0d546b8190)
+![image](https://github.com/user-attachments/assets/1996770c-fbf9-43a2-9fb1-c9ca245fb99c)
 
 our logger is basically its own table with a function attached to it, the method used is specifically named from the options listed in the documentation of the sleitnick component module.
 For now we will use "ShouldConstruct", In which will return a boolean telling the constructor whether to make a new component for this obect or not.
