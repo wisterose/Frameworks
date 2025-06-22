@@ -13,7 +13,7 @@ It’s mostly for newer devs looking for clean and optimized ways to set things 
 ## Why I'm Sharing
 
 I remember how hard it was starting out, so I’m putting this here in case it helps someone.  
-Plus it’s kinda fun to look back at how I build things.
+Plus it’s kinda fun to look back at how I build things. I will not explain specifically how to use any dependencies used in the code.
 
 ## | License
 
