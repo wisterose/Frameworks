@@ -1,3 +1,5 @@
+1[image](images/image_2026-03-21_071746277.png)
+
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StudioSettings = require(ReplicatedStorage.StudioSettings)
