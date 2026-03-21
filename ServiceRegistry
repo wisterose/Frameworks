@@ -1,4 +1,4 @@
-1[image](images/image_2026-03-21_071746277.png)
+![image alt](https://github.com/wisterose/Frameworks/blob/0a60fe00e4c7fde75cebafba075776710a033a28/images/image_2026-03-21_071746277.png)
 
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
