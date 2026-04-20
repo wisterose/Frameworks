@@ -29,12 +29,12 @@ No manual requiring.
 The framework automatically:
 - Loads modules  
 - Handles dependency injection  
-- Executes `Initialize()`  
+- Executes `Initialize()` (or the given "InitMethodName")  
 
 ---
 
 ## 3. 🚀 Native Buffer Networking
-Built-in `NetworkService` utilizing Suphi’s Packets for:
+Built-in `NetworkService` utilizing [Suphi Kaner's Packet Module](https://youtu.be/WoIElUdj64A?si=3F7xRk0jHhcNcIAu)  for:
 - High-speed communication  
 - Serialized data transfer  
 - Zero RemoteEvent management  
@@ -63,36 +63,50 @@ function MyService:Initialize()
 end
 
 return MyService
+```
 
 📦 Requiring Services
 
+Require the `ServiceRegistry` and call the `:Require` or  `:Await` methods.
+
+```lua
 local ServiceRegistry = require(ReplicatedStorage.ServiceRegistry)
 local MyService = ServiceRegistry:Require("MyService")
+```
 
 🌐 Using Network
+
+```lua
 local Network = ServiceRegistry:Require("NetworkService")
 Network:FireServer("MyPacket", {Data = 123})
+```
 
 📚 Standard Library (ASL)
 
 🌐 Networking
+
+
 _Packet
+
 _TypedRemote
+
 NetworkService
 
 🔁 Lifecycle
+
+
 _Trove
+
 _Future
+
 _Scheduler
 
+
 🧠 Logic
+
+
 _Signal
+
 _Observers
+
 _t (Type Checking)
-
-📄 License
-
-Copyright (c) 2026 Wisterose
-
-This project is licensed under the MIT License.
-Full license text: https://opensource.org/licenses/MIT
