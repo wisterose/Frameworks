@@ -1,4 +1,4 @@
-# 🌹 ANIMAROSE FRAMEWORK v1.0.0
+# 🌹 ANIMAROSE FRAMEWORK v1.0.5
 **"Professional-grade infrastructure without the bloat."**
 
 ---
@@ -110,3 +110,18 @@ _Signal
 _Observers
 
 _t (Type Checking)
+
+🛠️ RECENT FIXES
+
+[2026-04-20] Internal Dependency & Pathing Resolution
+Decoupled Relative Pathing
+Fixed a critical issue where moving service scripts within ServerStorage broke require links to sibling modules. The framework no longer relies on rigid file-tree paths.
+
+Implemented ServiceRegistry Getters
+Added GetTypes and GetShared methods to the ServiceRegistry. This allows any service to dynamically fetch its internal package dependencies using only a string name, making the entire framework location-agnostic.
+
+NetworkService Refactor
+Updated NetworkServiceServer to utilize the new Registry getters. This ensures that even if the network logic is relocated for security purposes, it can still reliably access its type definitions and packet configurations.
+
+Standardized ServicePackage Structure
+Formalized the "Package" philosophy: Types, Shared, and Server/Client modules are now strictly grouped together. This ensures clean internal discovery and modularity via the Registry.
